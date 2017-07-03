@@ -1,0 +1,253 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Journal Article
+% LaTeX Template
+% Version 1.4 (15/5/16)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com) with extensive modifications by
+% Vel (vel@LaTeXTemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[twoside,twocolumn]{article}
+
+\usepackage{blindtext} % Package to generate dummy text throughout this template 
+
+\usepackage[sc]{mathpazo} % Use the Palatino font
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\linespread{1.05} % Line spacing - Palatino needs more space between lines
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+
+\usepackage[italian]{babel} % Language hyphenation and typographical rules
+
+\usepackage[hmarginratio=1:1,top=32mm,columnsep=20pt]{geometry} % Document margins
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{booktabs} % Horizontal rules in tables
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{lettrine} % The lettrine is the first enlarged letter at the beginning of the text
+
+\usepackage{enumitem} % Customized lists
+\setlist[itemize]{noitemsep} % Make itemize lists more compact
+
+\usepackage{abstract} % Allows abstract customization
+\renewcommand{\abstractnamefont}{\normalfont\bfseries} % Set the "Abstract" text to bold
+\renewcommand{\abstracttextfont}{\normalfont\small\itshape} % Set the abstract itself to small italic text
+
+\usepackage{titlesec} % Allows customization of titles
+\renewcommand\thesection{\Roman{section}} % Roman numerals for the sections
+\renewcommand\thesubsection{\roman{subsection}} % roman numerals for subsections
+\titleformat{\section}[block]{\large\scshape\centering}{\thesection.}{1em}{} % Change the look of the section titles
+\titleformat{\subsection}[block]{\large}{\thesubsection.}{1em}{} % Change the look of the section titles
+
+\usepackage{fancyhdr} % Headers and footers
+\pagestyle{fancy} % All pages have headers and footers
+\fancyhead{} % Blank out the default header
+\fancyfoot{} % Blank out the default footer
+\fancyhead[C]{Running title $\bullet$ May 2016 $\bullet$ Vol. XXI, No. 1} % Custom header text
+\fancyfoot[RO,LE]{\thepage} % Custom footer text
+
+\usepackage{titling} % Customizing the title section
+
+\usepackage{hyperref} % For hyperlinks in the PDF
+
+\usepackage{graphicx}
+
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\setlength{\droptitle}{-4\baselineskip} % Move the title up
+
+\pretitle{\begin{center}\Huge\bfseries} % Article title formatting
+\posttitle{\end{center}} % Article title closing formatting
+\title{Sviluppo di un robot Line Follower con l'impiego del microcontrollore Arduino Uno} % Article title
+\author{%
+\textsc{Davide Cristini}\thanks{A thank you or further information} \\[1ex] % Your name
+\normalsize Università Degli Studi dell'Aquila \\ % Your institution
+\normalsize \href{mailto:john@smith.com}{john@smith.com} 
+\and 
+\textsc{Matteo Polsinelli}\thanks{Corresponding author} \\[1ex]
+\normalsize Università degli Studi Dell'Aquila \\ 
+\normalsize \href{mailto:polsinellimatteo91@gmail.com}{jane@smith.com}
+}
+\date{\today} % Leave empty to omit a date
+\renewcommand{\maketitlehookd}{%
+\begin{abstract}
+\noindent Durante il corso di Laboratorio di Autoamtica è stato realizzanto un robot in grado di, attraverso dei sensori infrarossi, seguire una linea nera.
+\end{abstract}
+}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+% Print the title
+\maketitle
+
+%----------------------------------------------------------------------------------------
+%	ARTICLE CONTENTS
+%----------------------------------------------------------------------------------------
+
+\section{Introduction}
+Uno dei temi odierni più discussi è quello riguardante nuovi sistemi che siano in grado, autonomamente e senza l'intervento umano, di completare un task assegnato.
+C'è molto interesse per questo settore, sia in ambito scientifico ma sopratutto in quello aziendale. 
+
+Nell'industria automobilistica la Tesla Inc è stata l'apri pista per veicoli a guida completamente autonoma. Su questa scia tutti gli altri produttori di automobili stanno sviluppando sistemi simili, appoggiati anche dai big dell'IT come Nvidia. Al di là dei benefici in termini economici derivanti dallo sviluppo di tali tecnologie, si pensi a ciò che queste comportano in ambito di sicurezza stradale. Un veicolo in grado di evitare ostacoli, accorgersi di un impatto imminente poco più avanti, frenare con tempi di reazione pari a quelli di un  computer diventa uno strumento in grado di ridurre gli incidenti e di conseguenza le perdite di vite umane. 
+
+Per quanto riguarda il campo dell'edilizia la costruzione di case efficienti dal punto di vista energetico è diventata ormai una consuetudine consolidata. Da una parte ci sono gli inquilini sicuramente felici di dover pagare bollette meno salate e dall'altra un problema noto a tutti come l'inquinamento globale. Termostati intelligenti, in grado di prevedere la temperatura esterna dell'edificio, sono capaci di coordinare i sistemi di riscaldamento (ed allo stesso modo quelli di raffreddamento) in modo tale da mantenere la temperatura interna ad un costo sicuramente minore rispetto ai metodi tradizionali.
+
+Di esempi ne esistono molti altri ancora che giustificano l'interesse e l'importanza dello studio in questo campo di ricerca.
+
+Durante il corso \textit{Laboratorio di Automatica} è stato sviluppato un robot in grado di seguire una linea di colore nero. Il principio di funzionamento si basa sull'emissione e la recezione di raggi infrarossi attraverso tre sensori emettitori e tre ricevitori. I dati raccolti vengono elaborati da un microcontrollore Arduino Uno rev. 3 il quale, attraverso un algoritmo di controllo, regola le velocità di rotazione dei motori collegati alle ruote (Figura \ref{fig:robot}).
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.4\textwidth]{immagini/robot}
+	\caption{Robottino Utilizzato}
+	\label{fig:robot}
+\end{figure}
+
+L'obiettivo finale è quello di far seguire al robot un tracciato disegnato con del nastro isolante di colore nero. Il percorso prevede rettilinei, curve paraboliche, curve ad angolo retto e per finire incroci.
+
+\section{Methods}
+
+In fisica lo spettro elettromagnetico indica l'insieme di tutte le possibili frequenze delle radiazioni elettromagnetiche. Pur essendo lo spettro continuo, è possibile una suddivisione puramente convenzionale ed indicativa in vari intervalli o bande di frequenza (Figura \ref{fig:spettro})
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{immagini/spettro}
+	\caption{Spettro Elettromagnetico}
+	\label{fig:spettro}
+\end{figure}
+
+In particolare la radiazione infrarossa (IR) è la radiazione elettromagnetica con banda di frequenza dello spettro elettromagnetico inferiore a quella della luce visibile, ma maggiore di quella delle onde radio, ovvero lunghezza d'onda compresa tra 700 nm e 1 mm (banda infrarossa).
+L'infrarosso è utilizzato comunemente come mezzo di trasmissione dati: nei telecomandi dei televisori (per evitare interferenze con le onde radio del segnale televisivo), tra computer portatili e fissi, palmari, telefoni cellulari, nei sensori di movimento e altri apparecchi elettronici. La radiazione infrarossa è soggetta al seguente fenomeno: viene assorbita da un materiale di colore nero e riflessa da uno bianco. 
+
+In elettronica esistono sensori sia in grado di emettere che ricevere il segnale infrarosso. In questo progetto sono stati utilizzati congiuntamente. In particolare sono stati affiancati e tra di loro è stato posto un materiale di colore nero (Figura \ref{fig:coppia}), il cui scopo è quello di evitare che la radiazione infrarossa emessa dall'emettitore venga rilevata dal ricevitore abbinato.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.4\textwidth]{immagini/coppia}
+	\caption{Il led di colore rosso è l'emettitore. Il led di colore blu è il ricevitore.}
+	\label{fig:coppia}
+\end{figure}
+
+Questa configurazione permette di distinguere una superficie bianca da un nera. Com'è possibile vedere in figura \ref{fig:leds_absorb1}, la coppia di componenti è stata posizionata in prossimità di una superficie bianca. La radiazione infrarossa, che ha origine dall'emettitore, viene riflessa dalla superficie. Ai capi del ricevitore, un dispositivo analogico, è possibile misurare una tensione direttamente proporzionale alla quantità di raggi infrarossi che il sensore riceve. In questo caso quindi tale tensione sarà sicuramente maggiore di zero.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.4\textwidth]{immagini/leds_absorb1}
+	\caption{Superficie bianca}
+	\label{fig:leds_absorb1}
+\end{figure}
+
+\newpage
+Viceversa, se la coppia di componenti si trova in prossimità di una superficie nera, come in figura  \ref{fig:leds_absorb2}, quest'ultima assorbirà quasi tutta la radiazione infrarossa e di conseguenza al ricevitore non arriverà nulla Quindi in uscita si leggerà una segnale basso ovvero una tensione vicina allo zero.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.4\textwidth]{immagini/leds_absorb2}
+	\caption{Superficie nera}
+	\label{fig:leds_absorb2}
+\end{figure}
+
+In questo lavoro sono state utilizzate tre coppie di sensori/emettitori divise ciascuna da una lunga linea di materiale colorato di nero. Le coppie sono disposte in modo tale da formare una griglia (Figura \ref{fig:configurazione}). La prima fila è composta da tutti i ricevitori mentre la seconda da tutti gli emettitori. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.4\textwidth]{immagini/configurazione}
+	\caption{Griglia formata dalle coppie di ricevitori/emettitori.}
+	\label{fig:configurazione}
+\end{figure}
+
+D'ora in poi verrà indicata la coppia sinistra con il simbolo $L$, la coppia centrale con $C$ e quella di destra con $R$.
+Inoltre ciascun ricevitore di ciascuna coppia è stato collegato all'ingresso analogico del microcontrollore Arduino. Quest'ultimo, con l'impiego di un convertitore analogio-digitale, campiona il segnale continuo e il valore dei quanti varia va da 0 a 1023.
+
+La griglia di sensori è stata montata sullo chassis del robot, in modo tale da trovarsi a 0.5 centimetri da terra (Figura \ref{fig:robot_stilizzato}).   
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.35\textwidth]{immagini/robot_stilizzato}
+	\caption{Rispettivamente il prospetto laterale e frontale del robot. In quest'ultimo non si vedono i ricevitori infrarossi in quanto coperti dagli emettitori.}
+	\label{fig:robot_stilizzato}
+\end{figure}
+
+L'obiettivo è quello di mantenere la $C$ perfettamente allineata con una linea nera. Di conseguenza, se questa condizione non si verifica, c'è un errore così valutato:
+
+\begin{equation}
+error = (R - C) - (L - C)
+\end{equation}
+
+L'equazione è stata esposta con un abuso di notazione in quanto $R$, $C$ e $L$ indicano i valori letti dai ricevitori di ciascuna coppia. Per comprendere meglio la formula supponiamo che il valore letto dal ricevitore sia pari a 0 se si trova sulla linea nera e pari a 10 se si trova sulla superficie bianca. Supponiamo inoltre di trovarci nella situazione illustrata in figura \ref{fig:t0}
+Il ricevitore $C$ leggerà un valore pari a 0 mentre $L$ e $R$ 10. Dall'equazione (1) l'errore risulta pari 0 in quanto il robot si trova perfettamente allineato (e di conseguenza $C$) alla linea nera.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.35\textwidth]{immagini/t0}
+	\caption{}
+	\label{fig:t0}
+\end{figure}
+
+
+
+
+
+
+
+%------------------------------------------------
+
+\section{Results}
+
+
+\blindtext % Dummy text
+
+\begin{equation}
+\label{eq:emc}
+e = mc^2
+\end{equation}
+
+\blindtext % Dummy text
+
+%------------------------------------------------
+
+\section{Discussion}
+
+\subsection{Subsection One}
+
+A statement requiring citation \cite{Figueredo:2009dg}.
+\blindtext % Dummy text
+
+\subsection{Subsection Two}
+
+\blindtext % Dummy text
+
+%----------------------------------------------------------------------------------------
+%	REFERENCE LIST
+%----------------------------------------------------------------------------------------
+
+\begin{thebibliography}{99} % Bibliography - this is intentionally simple in this template
+
+\bibitem[Figueredo and Wolf, 2009]{Figueredo:2009dg}
+Figueredo, A.~J. and Wolf, P. S.~A. (2009).
+\newblock Assortative pairing and life history strategy - a cross-cultural
+  study.
+\newblock {\em Human Nature}, 20:317--330.
+ 
+\end{thebibliography}
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
