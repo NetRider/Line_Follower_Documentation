@@ -101,7 +101,7 @@
 %	ARTICLE CONTENTS
 %----------------------------------------------------------------------------------------
 
-\section{Introduction}
+\section{Introduzione}
 Uno dei temi odierni più discussi è quello riguardante nuovi sistemi che siano in grado, autonomamente e senza l'intervento umano, di completare un task assegnato.
 C'è molto interesse per questo settore, sia in ambito scientifico ma sopratutto in quello aziendale. 
 
@@ -122,7 +122,7 @@ Durante il corso \textit{Laboratorio di Automatica} è stato sviluppato un robot
 
 L'obiettivo finale è quello di far seguire al robot un tracciato disegnato con del nastro isolante di colore nero. Il percorso prevede rettilinei, curve paraboliche, curve ad angolo retto e per finire incroci.
 
-\section{Methods}
+\section{Metodi}
 
 In fisica lo spettro elettromagnetico indica l'insieme di tutte le possibili frequenze delle radiazioni elettromagnetiche. Pur essendo lo spettro continuo, è possibile una suddivisione puramente convenzionale ed indicativa in vari intervalli o bande di frequenza (Figura \ref{fig:spettro})
 
@@ -136,7 +136,7 @@ In fisica lo spettro elettromagnetico indica l'insieme di tutte le possibili fre
 In particolare la radiazione infrarossa (IR) è la radiazione elettromagnetica con banda di frequenza dello spettro elettromagnetico inferiore a quella della luce visibile, ma maggiore di quella delle onde radio, ovvero lunghezza d'onda compresa tra 700 nm e 1 mm (banda infrarossa).
 L'infrarosso è utilizzato comunemente come mezzo di trasmissione dati: nei telecomandi dei televisori (per evitare interferenze con le onde radio del segnale televisivo), tra computer portatili e fissi, palmari, telefoni cellulari, nei sensori di movimento e altri apparecchi elettronici. La radiazione infrarossa è soggetta al seguente fenomeno: viene assorbita da un materiale di colore nero e riflessa da uno bianco. 
 
-In elettronica esistono sensori sia in grado di emettere che ricevere il segnale infrarosso. In questo progetto sono stati utilizzati congiuntamente. In particolare sono stati affiancati e tra di loro è stato posto un materiale di colore nero (Figura \ref{fig:coppia}), il cui scopo è quello di evitare che la radiazione infrarossa emessa dall'emettitore venga rilevata dal ricevitore abbinato.
+In elettronica esistono sensori in grado sia di emettere che ricevere il segnale infrarosso. In questo progetto sono stati utilizzati congiuntamente. In particolare sono stati affiancati e tra di loro è stato posto un materiale di colore nero (Figura \ref{fig:coppia}), il cui scopo è quello di evitare che la radiazione infrarossa emessa dall'emettitore venga rilevata dal ricevitore abbinato.
 
 \begin{figure}[h]
 	\centering
@@ -191,7 +191,7 @@ L'obiettivo è quello di mantenere la $C$ perfettamente allineata con una linea 
 distanza = (R - C) - (L - C)
 \end{equation}
 
-L'equazione è stata esposta con un abuso di notazione in quanto $R$, $C$ e $L$ indicano i valori letti dai ricevitori di ciascuna coppia. Per comprendere meglio la formula supponiamo che il valore letto dal ricevitore sia pari a 0 se si trova sulla linea nera e pari a 10 se si trova sulla superficie bianca. Supponiamo inoltre di trovarci nella situazione illustrata in figura \ref{fig:t0}
+L'equazione è stata esposta con un abuso di notazione in quanto $R$, $C$ e $L$ indicano i valori letti dai ricevitori di ciascuna coppia sui quali è stato applicato un filtro complementare e una media. Per comprendere meglio la formula supponiamo che il valore letto dal ricevitore sia pari a 0 se si trova sulla linea nera e pari a 10 se si trova sulla superficie bianca. Supponiamo inoltre di trovarci nella situazione illustrata in figura \ref{fig:t0}
 Il ricevitore $C$ leggerà un valore pari a 0 mentre $L$ e $R$ 10. Dall'equazione \ref{eq:equazione_errore} la distanza risulta pari 0 in quanto il robot si trova perfettamente allineato (e di conseguenza anche $C$) alla linea nera.
 
 \begin{figure}[h]
@@ -250,53 +250,29 @@ Lo schema di funzionamento del PID è riepilogato  in figura \ref{fig:pid}.
 	\label{fig:pid}
 \end{figure}
 
+In questo lavoro il controllo PID è stato utilizzato per riportare la distanza a zero. I parametri del PID sono stati scelti facendo delle prove direttamente sul campo. Inizialmente è stato predisposto un circuito, sulla quale far girare il robot, molto semplice ovvero senza curve a 90 gradi o incroci. Quanto il robot è stato in grado girare su questo tracciato si è passato ad uno più complesso. Anche in questo caso i valori del PID sono stati perfezionati fin quando il robot non è riuscito a completare il circuito.
 
+Il robot per muoversi utilizza due servomotori a rotazione continua. Questi si presentano come piccoli contenitori di materiale plastico da cui fuoriesce un perno in grado di ruotare (Figura \ref{fig:servo}). 
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.35\textwidth]{immagini/servo}
+	\caption{}
+	\label{fig:servo}
+\end{figure}
 
+I tre fili del motore devono essere collegati nel seguente modo: il rosso all'alimentazione (5 Volt), il nero alla terra (Ground) e l'arancione ad un porta di Arduino che supporta il Pulse With Modulation (\textbf{PWM}). La libreria di Arduino \textit{Servo.h} permette un utilizzo dei motori molto semplice attraverso un interfaccia estremamente comoda. Una volta dichiarata la variabile di tipo \textit{Servo}, attraverso la funzione \textit{attach(int port)} si crea il riferimento tra il numero di porta e la variabili stessa. A questo punto con la funzione \textit{write(int speed)} si impartisce al servo la velocità di rotazione. Il parametro \textit{int speed} può assumere valori tra 0 e 180. In particolare se \textit{speed} è uguale a 0 il servo ruota alla velocità massima in un senso; se uguale a 90 il motore non ruota e infine per 180 la velocità di rotazione è massima ma nel senso opposto. 
 
+I motori che sono stati utilizzati non sono però perfettamente calibrati in quanto per fermare la rotazione bisogna porre \textit{speed} pari a 89 anziché 90. Questa ha un valore di partenza impostato a 98 per il motore destro e 88 per il sinistro. In tal modo entrambi ruotano alla stessa velocità e nello stesso verso. A questo punto per controllare il robot viene aggiunto il valore restituito dal PID diviso per due e arrotondato. 
 
+\section{Risultati}
 
-%------------------------------------------------
+Il robot è in grado di seguire la linea in tutte le condizioni discusse nella sezione precedente. Per questo motivo è stata aumentata la velocità ovvero il parametro \textit{speed} è stato portato a 102 per il motore destro e 84 per il sinistro. Con questa configurazione però il robot è grado di eseguire le curve di 90 a sinistra ma non quelle a destra. Indagando questo strano fenomeno è venuto fuori che i motori non si comportano allo stesso modo. Infatti a parità di \textit{speed} la velocità di rotazione è differente. Questa problema si accentua aumentando appunto la velocità. Per risolvere l'inconveniente si è tentato di introdurre parametri di correzione sul software. L'esito però è stato negativo in quanto l'effettiva variazione di velocità rispetto alla variazione di \textit{speed} è non lineare. L'unico modo per risolvere il problema è stato quello di tornare alla velocità iniziale.
 
-\section{Results}
+\section{Sviluppi Futuri}
 
-
-\blindtext % Dummy text
-
-\begin{equation}
-\label{eq:emc}
-e = mc^2
-\end{equation}
-
-\blindtext % Dummy text
-
-%------------------------------------------------
-
-\section{Discussion}
-
-\subsection{Subsection One}
-
-A statement requiring citation \cite{Figueredo:2009dg}.
-\blindtext % Dummy text
-
-\subsection{Subsection Two}
-
-\blindtext % Dummy text
-
-%----------------------------------------------------------------------------------------
-%	REFERENCE LIST
-%----------------------------------------------------------------------------------------
-
-\begin{thebibliography}{99} % Bibliography - this is intentionally simple in this template
-
-\bibitem[Figueredo and Wolf, 2009]{Figueredo:2009dg}
-Figueredo, A.~J. and Wolf, P. S.~A. (2009).
-\newblock Assortative pairing and life history strategy - a cross-cultural
-  study.
-\newblock {\em Human Nature}, 20:317--330.
- 
-\end{thebibliography}
-
-%----------------------------------------------------------------------------------------
+Grazie all'esperienza maturata con questo progetto in futuro sarebbe interessante sviluppare una nuova versione del Line Follower. A livello hardware sarebbe interessante passare da servo motori a rotazione continua a motori DC. Questi ultimi permettono una maggiore velocità anche se sono più complicati da gestire in quanto richiedo una shield apposita per il loro controllo e alimentazione.
+A questo punto sarebbe interessante inviare la telemetria del robot (valori restituiti dai ricevitori infrarossi, valore restituito dal PID e così via). Questo permetterebbe di avere dati in tempo reale su cui lavorare e di conseguenza poter migliorare ulteriormente i parametri del PID e il software di controllo in generale.
+Per finire la ruota non snodata fornita con lo chassis dovrebbe essere modificata per evitare fastidiosi attriti che potrebbero verificarsi aumentando la velocità.
 
 \end{document}
