@@ -116,7 +116,7 @@ Durante il corso \textit{Laboratorio di Automatica} è stato sviluppato un robot
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.4\textwidth]{immagini/robot}
-	\caption{Robottino Utilizzato}
+	\caption{Robot utilizzato.}
 	\label{fig:robot}
 \end{figure}
 
@@ -128,7 +128,7 @@ In fisica lo spettro elettromagnetico indica l'insieme di tutte le possibili fre
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.5\textwidth]{immagini/spettro}
+	\includegraphics[width=0.45\textwidth]{immagini/spettro}
 	\caption{Spettro Elettromagnetico}
 	\label{fig:spettro}
 \end{figure}
@@ -140,7 +140,7 @@ In elettronica esistono sensori sia in grado di emettere che ricevere il segnale
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.4\textwidth]{immagini/coppia}
+	\includegraphics[width=0.35\textwidth]{immagini/coppia}
 	\caption{Il led di colore rosso è l'emettitore. Il led di colore blu è il ricevitore.}
 	\label{fig:coppia}
 \end{figure}
@@ -149,7 +149,7 @@ Questa configurazione permette di distinguere una superficie bianca da un nera. 
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.4\textwidth]{immagini/leds_absorb1}
+	\includegraphics[width=0.35\textwidth]{immagini/leds_absorb1}
 	\caption{Superficie bianca}
 	\label{fig:leds_absorb1}
 \end{figure}
@@ -159,7 +159,7 @@ Viceversa, se la coppia di componenti si trova in prossimità di una superficie 
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.4\textwidth]{immagini/leds_absorb2}
+	\includegraphics[width=0.35\textwidth]{immagini/leds_absorb2}
 	\caption{Superficie nera}
 	\label{fig:leds_absorb2}
 \end{figure}
@@ -168,7 +168,7 @@ In questo lavoro sono state utilizzate tre coppie di sensori/emettitori divise c
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.4\textwidth]{immagini/configurazione}
+	\includegraphics[width=0.35\textwidth]{immagini/configurazione}
 	\caption{Griglia formata dalle coppie di ricevitori/emettitori.}
 	\label{fig:configurazione}
 \end{figure}
@@ -180,25 +180,74 @@ La griglia di sensori è stata montata sullo chassis del robot, in modo tale da 
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.35\textwidth]{immagini/robot_stilizzato}
+	\includegraphics[width=0.3\textwidth]{immagini/robot_stilizzato}
 	\caption{Rispettivamente il prospetto laterale e frontale del robot. In quest'ultimo non si vedono i ricevitori infrarossi in quanto coperti dagli emettitori.}
 	\label{fig:robot_stilizzato}
 \end{figure}
 
-L'obiettivo è quello di mantenere la $C$ perfettamente allineata con una linea nera. Di conseguenza, se questa condizione non si verifica, c'è un errore così valutato:
+L'obiettivo è quello di mantenere la $C$ perfettamente allineata con una linea nera. Di conseguenza, se questa condizione non si verifica, è stato introdotto il concetto di distanza definito come:
 
-\begin{equation}
-error = (R - C) - (L - C)
+\begin{equation} \label{eq:equazione_errore}
+distanza = (R - C) - (L - C)
 \end{equation}
 
 L'equazione è stata esposta con un abuso di notazione in quanto $R$, $C$ e $L$ indicano i valori letti dai ricevitori di ciascuna coppia. Per comprendere meglio la formula supponiamo che il valore letto dal ricevitore sia pari a 0 se si trova sulla linea nera e pari a 10 se si trova sulla superficie bianca. Supponiamo inoltre di trovarci nella situazione illustrata in figura \ref{fig:t0}
-Il ricevitore $C$ leggerà un valore pari a 0 mentre $L$ e $R$ 10. Dall'equazione (1) l'errore risulta pari 0 in quanto il robot si trova perfettamente allineato (e di conseguenza $C$) alla linea nera.
+Il ricevitore $C$ leggerà un valore pari a 0 mentre $L$ e $R$ 10. Dall'equazione \ref{eq:equazione_errore} la distanza risulta pari 0 in quanto il robot si trova perfettamente allineato (e di conseguenza anche $C$) alla linea nera.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.35\textwidth]{immagini/t0}
+	\includegraphics[width=0.3\textwidth]{immagini/t0}
 	\caption{}
 	\label{fig:t0}
+\end{figure}
+
+Nella figura \ref{fig:t1} è illustrato un altro scenario. Il robot non è allineato alla linea nera e quindi se continuasse ad avanzare in quella direzione finirebbe per perdere la linea. Dall'equazione \ref{eq:equazione_errore} la distanza da $C$ è pari a 10, il massimo possibile. Nel caso in cui il robot si trovasse con $R$ sulla linea nera e $L$ e $C$ sulla superficie bianca (ovvero lo scenario speculare rispetto alla figura \ref{fig:t1}) la distanza risultante sarebbe pari a -10. Il segno positivo o negativo discrimina quindi le due condizioni tra loro simmetriche.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.3\textwidth]{immagini/t1}
+	\caption{}
+	\label{fig:t1}
+\end{figure}
+
+
+Nella figura \ref{fig:t2} il robot deve affrontare un incrocio. Tutti i ricevitori forniscono come valore di riferimento 0. La distanza di conseguenza è 0 ($C$ è allineato con la linea nera) e quindi il robot procede sulla stessa direzione.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.3\textwidth]{immagini/t2}
+	\caption{}
+	\label{fig:t2}
+\end{figure}
+
+Nella figura \ref{fig:t3} è illustrato l'ultimo scenario che il robot può affrontare, ovvero una curva a 90 gradi. La distanza risultante dall'equazione \ref{eq:equazione_errore} è pari a 10. Nel caso di curva a destra, il caso è simmetrico in quanto la distanza è pari a -10.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.3\textwidth]{immagini/t3}
+	\caption{}
+	\label{fig:t3}
+\end{figure}
+
+
+La distanza calcolata con l'equazione \ref{eq:equazione_errore} viene dato in ingresso ad un controllore PID.
+
+Il controllore \textbf{PID (Proportional Integral Derivative Controller)} è un sistema in retroazione negativa ampiamente impiegato nei sistemi di controllo. Il controllore acquisisce in ingresso un valore da un processo e lo confronta con un valore di riferimento. La differenza, il cosiddetto segnale di errore, viene quindi utilizzata per determinare il valore della variabile di uscita del controllore, che è la variabile manipolabile del processo.
+
+Il PID regola l'uscita in base a:
+\begin{enumerate}
+	\item il valore del segnale di errore (azione proporzionale);
+	\item i valori passati del segnale di errore (azione integrale);
+	\item quanto velocemente il segnale di errore varia (azione derivativa).
+\end{enumerate}
+
+Lo schema di funzionamento del PID è riepilogato  in figura \ref{fig:pid}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{immagini/PID}
+	\caption{}
+	\label{fig:pid}
 \end{figure}
 
 
